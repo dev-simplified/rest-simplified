@@ -6,12 +6,21 @@ import (
 	"net/url"
 )
 
+//Headers is a key value pair for rest API headers
 type Headers struct {
+	//Key is the name of the request header
+	//Value is the value corresponding to the request header key
 	Key   string
 	Value string
 }
 
+//APIClient holds all request properties needed for making rest API calls
 type APIClient struct {
+	//APIURL: the URL of the rest APi to be invoked
+	//APIMethod: API method to be used (GET/ POST/ PUT)
+	//ContentType: The Content-type (eg application/json) of the data being used for invoking the rest API. Currently support has been created for application/json
+	//Authorization: Basic Auth or Bearer Auth token created for API Authorization (use CreateBearerAuth() or CreateBasicAuth() methods)
+	//AdditionalAOIHeaders: Array of additional headers other than Authorization and Content-Type
 	APIURL               string
 	AdditionalAPIHeaders []*Headers
 	ContentType          string
@@ -62,11 +71,11 @@ func (client *APIClient) ExecuteAPI(JSONPayload string) (int, string, error) {
 	headers := client.AdditionalAPIHeaders
 
 	contentTypeHeader := &Headers{}
-	contentTypeHeader.Key = "content-type"
+	contentTypeHeader.Key = "Content-type"
 	contentTypeHeader.Value = contentType
 	headers = append(headers, contentTypeHeader)
 
-	if authorization != "none" || authorization != "" {
+	if authorization != "none" && authorization != "" {
 		authorizationHeader := &Headers{}
 		authorizationHeader.Key = "Authorization"
 		authorizationHeader.Value = authorization
