@@ -11,6 +11,7 @@ var (
 	client HTTPClient = &http.Client{}
 )
 
+//HTTPClient extends Do method of net/http for mock testing
 type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }

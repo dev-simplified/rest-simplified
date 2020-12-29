@@ -28,25 +28,31 @@ type APIClient struct {
 	APIMethod            string
 }
 
+//CreateBearerAuth accepts token string as input and returns bearer token to be used for rest API access
 func CreateBearerAuth(token string) string {
 	authToken := "Bearer " + token
 	return authToken
 }
 
+//CreateBasicAuth accepts user name and password for API authentication and returns Basic auth string
 func CreateBasicAuth(userName string, password string) string {
 	authToken := "Basic " + userName + ":" + url.QueryEscape(password)
 	return authToken
 }
 
-func CreateAPIClient(apiUrl string, apiMethod string, authorization string, contentType string) *APIClient {
+//CreateAPIClient accepts the apiURL, apiMethod (GET/POST/etc), authorization token and contentType(application/json) and creates the client which can call the API.
+//Authorization token can be created using CreateBasicAuth and CreateBearerAuth functions
+func CreateAPIClient(apiURL string, apiMethod string, authorization string, contentType string) *APIClient {
 	apiClient := &APIClient{}
-	apiClient.APIURL = apiUrl
+	apiClient.APIURL = apiURL
 	apiClient.APIMethod = apiMethod
 	apiClient.Authorization = authorization
 	apiClient.ContentType = contentType
 	return apiClient
 }
 
+//AddAdditionalRequestHeader method takes the header name and header value as input and appends these headers to Content-type and Authorization headers created by default.
+//Example headerName: Accept, headerValue: application/json
 func (client *APIClient) AddAdditionalRequestHeader(headerName string, headerValue string) *APIClient {
 	header := &Headers{}
 	header.Key = headerName
@@ -57,7 +63,8 @@ func (client *APIClient) AddAdditionalRequestHeader(headerName string, headerVal
 	return client
 }
 
-func (client *APIClient) ExecuteAPI(JSONPayload string) (int, string, error) {
+//ExecuteAPI method executes the api client (client contains all api details like URL, method,etc) with the APIPayload passed as input and returns the API response code, response body as a string and any error that may have occured.
+func (client *APIClient) ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error) {
 	var apiMethod string
 	var apiURL string
 	var contentType string
@@ -82,11 +89,11 @@ func (client *APIClient) ExecuteAPI(JSONPayload string) (int, string, error) {
 		headers = append(headers, authorizationHeader)
 	}
 
-	if JSONPayload != "" {
-		payload = bytes.NewBuffer([]byte(JSONPayload))
+	if APIPayload != "" {
+		payload = bytes.NewBuffer([]byte(APIPayload))
 	}
 
-	responseCode, responseBody, err := executeAPI(apiMethod, apiURL, headers, payload)
+	responseCode, responseBody, err = executeAPI(apiMethod, apiURL, headers, payload)
 
 	return responseCode, responseBody, err
 }

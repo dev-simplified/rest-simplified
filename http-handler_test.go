@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestexecuteAPI(t *testing.T) {
+func TestHTTPExecuteAPI(t *testing.T) {
 	fmt.Println("running TestexecuteAPI")
 }
