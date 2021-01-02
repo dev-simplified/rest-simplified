@@ -6,12 +6,21 @@ import (
 	"net/url"
 )
 
+var (
+	enableMock bool = false
+)
+
 //Headers is a key value pair for rest API headers
 type Headers struct {
 	//Key is the name of the request header
 	//Value is the value corresponding to the request header key
 	Key   string
 	Value string
+}
+
+//APIClientInterface allows for mocking of ExecuteAPI method
+type APIClientInterface interface {
+	ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error)
 }
 
 //APIClient holds all request properties needed for making rest API calls
@@ -42,7 +51,17 @@ func CreateBasicAuth(userName string, password string) string {
 
 //CreateAPIClient accepts the apiURL, apiMethod (GET/POST/etc), authorization token and contentType(application/json) and creates the client which can call the API.
 //Authorization token can be created using CreateBasicAuth and CreateBearerAuth functions
-func CreateAPIClient(apiURL string, apiMethod string, authorization string, contentType string) *APIClient {
+func CreateAPIClient(apiURL string, apiMethod string, authorization string, contentType string) APIClientInterface {
+	var apiClient APIClientInterface
+	if !enableMock {
+		apiClient = createAPIAccessClient(apiURL, apiMethod, authorization, contentType)
+	} else {
+		apiClient = createAPIMockClient()
+	}
+	return apiClient
+}
+
+func createAPIAccessClient(apiURL string, apiMethod string, authorization string, contentType string) *APIClient {
 	apiClient := &APIClient{}
 	apiClient.APIURL = apiURL
 	apiClient.APIMethod = apiMethod
