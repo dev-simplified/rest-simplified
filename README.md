@@ -14,15 +14,6 @@ Simplified rest API client created as a wrapper over net/http. This can be used 
 
 ```go
 import rest "github.com/dev-simplified/rest-simplified"
-
-func main() {
-    //create authorization as required
-    
-    //if bearer token is to be used
-    auth := rest.CreateBearerAuth("bearer token")
-    //if no auth
-    auth = "" or "none"
-}
 ```
 
 #### create authorization if required
