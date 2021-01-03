@@ -21,6 +21,7 @@ type Headers struct {
 //APIClientInterface allows for mocking of ExecuteAPI method
 type APIClientInterface interface {
 	ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error)
+	AddAdditionalRequestHeader(headerName string, headerValue string) APIClientInterface
 }
 
 //APIClient holds all request properties needed for making rest API calls
@@ -72,7 +73,7 @@ func createAPIAccessClient(apiURL string, apiMethod string, authorization string
 
 //AddAdditionalRequestHeader method takes the header name and header value as input and appends these headers to Content-type and Authorization headers created by default.
 //Example headerName: Accept, headerValue: application/json
-func (client *APIClient) AddAdditionalRequestHeader(headerName string, headerValue string) *APIClient {
+func (client *APIClient) AddAdditionalRequestHeader(headerName string, headerValue string) APIClientInterface {
 	header := &Headers{}
 	header.Key = headerName
 	header.Value = headerValue

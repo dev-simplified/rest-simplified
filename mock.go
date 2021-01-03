@@ -32,3 +32,8 @@ func CreateMockResponse(responseCode int, response string, err error) string {
 func (*APIMockClient) ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error) {
 	return mockResponseCode, mockRresponse, mockErr
 }
+
+//AddAdditionalRequestHeader is for mocking the actual method
+func (client *APIMockClient) AddAdditionalRequestHeader(headerName string, headerValue string) APIClientInterface {
+	return client
+}
