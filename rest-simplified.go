@@ -46,7 +46,7 @@ func CreateBearerAuth(token string) string {
 
 //CreateBasicAuth accepts user name and password for API authentication and returns Basic auth string
 func CreateBasicAuth(userName string, password string) string {
-	authToken := "Basic " + userName + ":" + url.QueryEscape(password)
+	authToken := "Basic " + url.QueryEscape(userName) + ":" + url.QueryEscape(password)
 	return authToken
 }
 
