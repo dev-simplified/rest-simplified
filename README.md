@@ -78,3 +78,6 @@ status = rest.CreateMockResponse(200, `{mock response}`, nil)
 #### Call the API function to test
 
 Now the rest API function to be unit tested can be executed from the test method and the response returned will be the mock response created.
+
+### Example Project
+[rest-simplifed-example](https://github.com/dev-simplified/rest-simplified-example)
