@@ -4,6 +4,8 @@ Simplified rest API client created as a wrapper over net/http. This can be used 
 
 ## usage
 
+[example-project](https://github.com/dev-simplified/rest-simplified-example)
+
 ### To download the package
 
     go get github.com/dev-simplified/rest-simplified
