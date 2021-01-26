@@ -6,11 +6,11 @@ var (
 	mockErr          error  = nil
 )
 
-//APIMockClient is used to mock API calls
-type APIMockClient struct{}
+//apiMockClient is used to mock API calls
+type apiMockClient struct{}
 
-func createAPIMockClient() *APIMockClient {
-	apiMockClient := &APIMockClient{}
+func createAPIMockClient() *apiMockClient {
+	apiMockClient := &apiMockClient{}
 	return apiMockClient
 }
 
@@ -29,11 +29,11 @@ func CreateMockResponse(responseCode int, response string, err error) string {
 }
 
 //ExecuteAPI method here will provide a mock API response
-func (*APIMockClient) ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error) {
+func (*apiMockClient) ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error) {
 	return mockResponseCode, mockRresponse, mockErr
 }
 
 //AddAdditionalRequestHeader is for mocking the actual method
-func (client *APIMockClient) AddAdditionalRequestHeader(headerName string, headerValue string) APIClientInterface {
+func (client *apiMockClient) AddAdditionalRequestHeader(headerName string, headerValue string) APIClientInterface {
 	return client
 }

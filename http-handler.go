@@ -16,7 +16,7 @@ type HTTPClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
-func executeAPI(method string, apiURL string, headers []*Headers, payload io.Reader) (int, string, error) {
+func executeAPI(method string, apiURL string, headers []*headers, payload io.Reader) (int, string, error) {
 	request, err := http.NewRequest(method, apiURL, payload)
 	if err != nil {
 		log.Panic(err)

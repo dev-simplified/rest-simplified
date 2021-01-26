@@ -10,8 +10,8 @@ var (
 	enableMock bool = false
 )
 
-//Headers is a key value pair for rest API headers
-type Headers struct {
+//headers is a key value pair for rest API headers
+type headers struct {
 	//Key is the name of the request header
 	//Value is the value corresponding to the request header key
 	Key   string
@@ -32,7 +32,7 @@ type APIClient struct {
 	//Authorization: Basic Auth or Bearer Auth token created for API Authorization (use CreateBearerAuth() or CreateBasicAuth() methods)
 	//AdditionalAOIHeaders: Array of additional headers other than Authorization and Content-Type
 	APIURL               string
-	AdditionalAPIHeaders []*Headers
+	AdditionalAPIHeaders []*headers
 	ContentType          string
 	Authorization        string
 	APIMethod            string
@@ -74,7 +74,7 @@ func createAPIAccessClient(apiURL string, apiMethod string, authorization string
 //AddAdditionalRequestHeader method takes the header name and header value as input and appends these headers to Content-type and Authorization headers created by default.
 //Example headerName: Accept, headerValue: application/json
 func (client *APIClient) AddAdditionalRequestHeader(headerName string, headerValue string) APIClientInterface {
-	header := &Headers{}
+	header := &headers{}
 	header.Key = headerName
 	header.Value = headerValue
 	clientAPIHeaders := client.AdditionalAPIHeaders
@@ -95,25 +95,25 @@ func (client *APIClient) ExecuteAPI(APIPayload string) (responseCode int, respon
 	apiURL = client.APIURL
 	contentType = client.ContentType
 	authorization = client.Authorization
-	headers := client.AdditionalAPIHeaders
+	apiHeaders := client.AdditionalAPIHeaders
 
-	contentTypeHeader := &Headers{}
+	contentTypeHeader := &headers{}
 	contentTypeHeader.Key = "Content-type"
 	contentTypeHeader.Value = contentType
-	headers = append(headers, contentTypeHeader)
+	apiHeaders = append(apiHeaders, contentTypeHeader)
 
 	if authorization != "none" && authorization != "" {
-		authorizationHeader := &Headers{}
+		authorizationHeader := &headers{}
 		authorizationHeader.Key = "Authorization"
 		authorizationHeader.Value = authorization
-		headers = append(headers, authorizationHeader)
+		apiHeaders = append(apiHeaders, authorizationHeader)
 	}
 
 	if APIPayload != "" {
 		payload = bytes.NewBuffer([]byte(APIPayload))
 	}
 
-	responseCode, responseBody, err = executeAPI(apiMethod, apiURL, headers, payload)
+	responseCode, responseBody, err = executeAPI(apiMethod, apiURL, apiHeaders, payload)
 
 	return responseCode, responseBody, err
 }
