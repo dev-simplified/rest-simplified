@@ -29,7 +29,7 @@ func CreateMockResponse(responseCode int, response string, err error) string {
 }
 
 //ExecuteAPI method here will provide a mock API response
-func (*apiMockClient) ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error) {
+func (client *apiMockClient) ExecuteAPI(APIPayload string) (responseCode int, responseBody string, err error) {
 	return mockResponseCode, mockRresponse, mockErr
 }
 

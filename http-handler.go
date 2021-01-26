@@ -8,11 +8,13 @@ import (
 )
 
 var (
-	client HTTPClient = &http.Client{}
+	client httpClient = &http.Client{}
 )
 
-//HTTPClient extends Do method of net/http for mock testing
-type HTTPClient interface {
+type netMockStruct struct{}
+
+//httpClient extends Do method of net/http for mock testing
+type httpClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
@@ -29,6 +31,11 @@ func executeAPI(method string, apiURL string, headers []*headers, payload io.Rea
 	}
 
 	response, err := client.Do(request)
+
+	if err != nil {
+		log.Fatal(err)
+		return 0, "", err
+	}
 
 	statusCode := response.StatusCode
 	defer response.Body.Close()
